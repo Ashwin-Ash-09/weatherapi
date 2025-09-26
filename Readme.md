@@ -145,22 +145,24 @@ GET /weather?location=London&days=3
 
 ## 📊 Screenshots
 
-### API Documentation (Swagger UI)
-*Screenshot will be added here showing the interactive API documentation*
-
-![API Documentation](screenshots/swagger-ui.png)
-
+### API Documentation (Bruno API Client)
 ### Example API Response
-*Screenshot will be added here showing a sample API response*
 
-![API Response](screenshots/api-response.png)
+### Health Check 
+![Screenshort 1](screenshots/heathckeck.png)
 
-### Application Logs
-*Screenshot will be added here showing the application running*
+### Location Search 
+![Screenshort 1](screenshots/locationsearch.png)
 
-![Application Logs](screenshots/app-logs.png)
+### Weather Forecast 
+![Screenshort 1](screenshots/weatherforecast.png)
 
-## 🔧 Configuration
+### Current Weather 
+![Screenshort 1](screenshots/currentweather.png)
+
+### All Details On Location
+![Screenshort 1](screenshots/allweatherlocation.png)
+
 
 ### Application Settings
 
