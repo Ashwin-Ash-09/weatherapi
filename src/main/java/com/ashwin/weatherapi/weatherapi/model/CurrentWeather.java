@@ -1,16 +1,24 @@
 package com.ashwin.weatherapi.weatherapi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Current weather data for a location")
 public class CurrentWeather {
-    private String location;
+    @Schema(description = "Location details", implementation = Location.class)
+    private Location location;
+    @Schema(description = "Current temperature in Celsius", example = "15.5")
     private double temperature;
+    @Schema(description = "Weather description", example = "Partly cloudy")
     private String description;
+    @Schema(description = "Humidity percentage", example = "65")
     private int humidity;
+    @Schema(description = "Wind speed in km/h", example = "10.2")
     private double windSpeed;
 
     // Constructors
     public CurrentWeather() {}
 
-    public CurrentWeather(String location, double temperature, String description, int humidity, double windSpeed) {
+    public CurrentWeather(Location location, double temperature, String description, int humidity, double windSpeed) {
         this.location = location;
         this.temperature = temperature;
         this.description = description;
@@ -19,8 +27,8 @@ public class CurrentWeather {
     }
 
     // Getters and Setters
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public Location getLocation() { return location; }
+    public void setLocation(Location location) { this.location = location; }
 
     public double getTemperature() { return temperature; }
     public void setTemperature(double temperature) { this.temperature = temperature; }

@@ -5,6 +5,7 @@ import com.ashwin.weatherapi.weatherapi.model.Forecast;
 import com.ashwin.weatherapi.weatherapi.model.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 public class OpenMeteoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenMeteoService.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     private static final String API_URL = "https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,windspeed_10m,weathercode";
 
@@ -43,7 +45,7 @@ public class OpenMeteoService {
             if (response != null && response.current != null) {
                 var current = response.current;
                 return new CurrentWeather(
-                    location.getName(),
+                    location,
                     current.temperature_2m,
                     getWeatherDescription(current.weathercode),
                     current.relative_humidity_2m,
@@ -73,7 +75,7 @@ public class OpenMeteoService {
                     String description = getWeatherDescription(codes[i]);
                     dailyForecasts.add(new Forecast.DailyForecast(date, maxTemp, minTemp, description));
                 }
-                return new Forecast(location.getName(), dailyForecasts);
+                return new Forecast(location, dailyForecasts);
             }
         } catch (Exception e) {
             logger.error("Error fetching forecast from Open-Meteo for {}: {}", location.getName(), e.getMessage());
@@ -81,22 +83,22 @@ public class OpenMeteoService {
         return null;
     }
 
-    private static class OpenMeteoResponse {
+    public static class OpenMeteoResponse {
         public CurrentWeatherResponse current;
     }
 
-    private static class CurrentWeatherResponse {
+    public static class CurrentWeatherResponse {
         public double temperature_2m;
         public int relative_humidity_2m;
         public double windspeed_10m;
         public int weathercode;
     }
 
-    private static class OpenMeteoForecastResponse {
+    public static class OpenMeteoForecastResponse {
         public Daily daily;
     }
 
-    private static class Daily {
+    public static class Daily {
         public String[] time;
         public double[] temperature_2m_max;
         public double[] temperature_2m_min;

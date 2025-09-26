@@ -6,6 +6,7 @@ import com.ashwin.weatherapi.weatherapi.model.Forecast;
 import com.ashwin.weatherapi.weatherapi.model.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +17,8 @@ import java.util.List;
 public class WeatherApiComService {
 
     private static final Logger logger = LoggerFactory.getLogger(WeatherApiComService.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Value("${weather.api.com.api.key}")
     private String apiKey;
@@ -28,7 +30,7 @@ public class WeatherApiComService {
             var response = restTemplate.getForObject(API_URL, WeatherApiComResponse.class, apiKey, location.getLat(), location.getLon(), 1);
             if (response != null && response.current != null) {
                 return new CurrentWeather(
-                    location.getName(),
+                    location,
                     response.current.temp_c,
                     response.current.condition.text,
                     response.current.humidity,
@@ -45,32 +47,32 @@ public class WeatherApiComService {
         return null; // Not implemented yet
     }
 
-    private static class WeatherApiComResponse {
+    public static class WeatherApiComResponse {
         public Current current;
         public ForecastResponse forecast;
     }
 
-    private static class Current {
+    public static class Current {
         public double temp_c;
         public int humidity;
         public double wind_kph;
         public Condition condition;
     }
 
-    private static class Condition {
+    public static class Condition {
         public String text;
     }
 
-    private static class ForecastResponse {
+    public static class ForecastResponse {
         public List<ForecastDay> forecastday;
     }
 
-    private static class ForecastDay {
+    public static class ForecastDay {
         public String date;
         public Day day;
     }
 
-    private static class Day {
+    public static class Day {
         public double maxtemp_c;
         public double mintemp_c;
         public Condition condition;

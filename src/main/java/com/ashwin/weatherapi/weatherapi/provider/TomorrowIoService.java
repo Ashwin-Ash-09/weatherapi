@@ -5,6 +5,7 @@ import com.ashwin.weatherapi.weatherapi.model.Forecast;
 import com.ashwin.weatherapi.weatherapi.model.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,7 +18,8 @@ import java.util.List;
 public class TomorrowIoService {
 
     private static final Logger logger = LoggerFactory.getLogger(TomorrowIoService.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Value("${tomorrow.io.api.key}")
     private String apiKey;
@@ -32,7 +34,7 @@ public class TomorrowIoService {
                 if (timeline.intervals != null && !timeline.intervals.isEmpty()) {
                     var interval = timeline.intervals.get(0);
                     return new CurrentWeather(
-                        location.getName(),
+                        location,
                         interval.values.temperature,
                         "", // Description not available
                         (int) interval.values.humidity,
@@ -62,7 +64,7 @@ public class TomorrowIoService {
                             "" // Description not available
                         ));
                     }
-                    return new Forecast(location.getName(), dailyForecasts);
+                    return new Forecast(location, dailyForecasts);
                 }
             }
         } catch (Exception e) {
@@ -71,27 +73,27 @@ public class TomorrowIoService {
         return null;
     }
 
-    private static class TomorrowIoResponse {
+    public static class TomorrowIoResponse {
         public Data data;
     }
 
-    private static class Data {
+    public static class Data {
         public List<Timeline> timelines;
     }
 
-    private static class Timeline {
+    public static class Timeline {
         public String timestep;
         public String startTime;
         public String endTime;
         public List<Interval> intervals;
     }
 
-    private static class Interval {
+    public static class Interval {
         public String startTime;
         public Values values;
     }
 
-    private static class Values {
+    public static class Values {
         public double temperature;
         public double humidity;
         public double windSpeed;

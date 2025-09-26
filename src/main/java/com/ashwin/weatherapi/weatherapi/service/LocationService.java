@@ -17,7 +17,11 @@ import java.util.stream.Collectors;
 public class LocationService {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
+    public LocationService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     private static final String NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search?q={query}&format=json&limit=5";
 

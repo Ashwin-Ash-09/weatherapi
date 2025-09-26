@@ -63,10 +63,10 @@ public class WeatherService {
             return null;
         }
 
-        return aggregateCurrentWeather(results, location.getName());
+        return aggregateCurrentWeather(results, location);
     }
 
-    private CurrentWeather aggregateCurrentWeather(List<CurrentWeather> results, String locationName) {
+    private CurrentWeather aggregateCurrentWeather(List<CurrentWeather> results, com.ashwin.weatherapi.weatherapi.model.Location location) {
         if (results.isEmpty()) return null;
 
         double totalTemp = 0;
@@ -85,7 +85,7 @@ public class WeatherService {
 
         int count = results.size();
         return new CurrentWeather(
-            locationName,
+            location,
             totalTemp / count,
             description,
             totalHumidity / count,
@@ -93,7 +93,7 @@ public class WeatherService {
         );
     }
 
-    private Forecast aggregateForecasts(List<Forecast> forecasts, String locationName, int days) {
+    private Forecast aggregateForecasts(List<Forecast> forecasts, com.ashwin.weatherapi.weatherapi.model.Location location, int days) {
         if (forecasts.isEmpty()) return null;
 
         Map<String, List<Forecast.DailyForecast>> dateMap = new TreeMap<>();
@@ -122,7 +122,7 @@ public class WeatherService {
             aggregated.add(new Forecast.DailyForecast(date, totalMax / count, totalMin / count, desc));
         }
 
-        return new Forecast(locationName, aggregated);
+        return new Forecast(location, aggregated);
     }
 
     @Cacheable(value = "forecast", key = "#location.name + '_' + #days")
@@ -142,13 +142,13 @@ public class WeatherService {
             return null;
         }
 
-        return aggregateForecasts(results, location.getName(), days);
+        return aggregateForecasts(results, location, days);
     }
 
     public WeatherResponse getFullWeather(com.ashwin.weatherapi.weatherapi.model.Location location, int days) {
         logger.info("Fetching full weather (current + forecast) for location: {}, days: {}", location.getName(), days);
         CurrentWeather current = getCurrentWeather(location);
         Forecast forecast = getForecast(location, days);
-        return new WeatherResponse(location.getName(), current, forecast);
+        return new WeatherResponse(location, current, forecast);
     }
 }

@@ -5,6 +5,7 @@ import com.ashwin.weatherapi.weatherapi.model.Forecast;
 import com.ashwin.weatherapi.weatherapi.model.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,7 +15,8 @@ import java.util.List;
 public class WttrInService {
 
     private static final Logger logger = LoggerFactory.getLogger(WttrInService.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     private static final String API_URL = "http://wttr.in/{location}?format=j1";
 
@@ -24,7 +26,7 @@ public class WttrInService {
             if (response != null && response.current_condition != null && !response.current_condition.isEmpty()) {
                 var current = response.current_condition.get(0);
                 return new CurrentWeather(
-                        location.getName(),
+                        location,
                         Double.parseDouble(current.temp_C),
                         current.weatherDesc.get(0).value,
                         Integer.parseInt(current.humidity),
@@ -42,18 +44,18 @@ public class WttrInService {
         return null;
     }
 
-    private static class WttrInResponse {
+    public static class WttrInResponse {
         public List<CurrentCondition> current_condition;
     }
 
-    private static class CurrentCondition {
+    public static class CurrentCondition {
         public String temp_C;
         public String humidity;
         public String windspeedKmph;
         public List<WeatherDesc> weatherDesc;
     }
 
-    private static class WeatherDesc {
+    public static class WeatherDesc {
         public String value;
     }
 }

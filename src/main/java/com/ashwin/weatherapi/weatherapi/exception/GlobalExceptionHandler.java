@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WeatherApiException.class)
     public ResponseEntity<Map<String, String>> handleWeatherApiException(WeatherApiException ex) {
         logger.error("Weather API error: {}", ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(Map.of("error", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

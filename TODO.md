@@ -1,12 +1,16 @@
-# TODO for Aggregating Weather Sources into Single Response
+# TODO: Fix Failing Tests
 
-- [x] Create new model: src/main/java/com/ashwin/weatherapi/weatherapi/model/WeatherResponse.java (wrapper for CurrentWeather and Forecast)
-- [x] Update WeatherService.java: Modify getCurrentWeather to fetch from all providers and aggregate successful results (average numerical fields, handle description)
-- [x] Update WeatherController.java: Add unified GET /weather endpoint that returns WeatherResponse
-- [x] Test: Run the application and verify the new endpoint aggregates data correctly
+## 1. Update WeatherControllerTest
+- Change test methods to use 'location' parameter instead of 'lat' and 'lon'
+- Add @MockBean for LocationService
+- Mock LocationService.searchLocations to return a list with the location
 
-# TODO for Forecast Aggregation
+## 2. Modify LocationService
+- Change RestTemplate to be injected via constructor
+- Update constructor to accept RestTemplate
 
-- [x] Modify WeatherService.getForecast to fetch from OpenMeteo and TomorrowIo providers and aggregate forecasts
-- [x] Add aggregateForecasts method to combine forecasts by averaging temperatures per date and selecting descriptions
-- [x] Test the /weather/forecast and /weather endpoints to verify aggregation works
+## 3. Update WeatherServiceTest
+- Remove unnecessary stubbing for weatherApiComService.getForecast in getForecast_AllFail test
+
+## 4. Add RestTemplate Bean
+- Add @Bean RestTemplate in CacheConfig.java
