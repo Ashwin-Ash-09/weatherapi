@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "weather.api.com.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'weather.api.com.api.key'"
+  },
+  {
+    "name": "tomorrow.io.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'tomorrow.io.api.key'"
+  },
+  {
+    "name": "weather.cache.ttl",
+    "type": "java.lang.String",
+    "description": "A description for 'weather.cache.ttl'"
+  }
+]}

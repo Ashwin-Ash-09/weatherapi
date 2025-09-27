@@ -40,12 +40,38 @@ public class WttrInService {
     }
 
     public Forecast getForecast(Location location, int days) {
-        // Not implemented yet
+        try {
+            var response = restTemplate.getForObject(API_URL, WttrInResponse.class, location.getName());
+            if (response != null && response.weather != null && !response.weather.isEmpty()) {
+                List<Forecast.DailyForecast> dailyForecasts = response.weather.stream()
+                        .limit(days)
+                        .map(day -> {
+                            String description = day.hourly.stream()
+                                    .filter(h -> "1200".equals(h.time)) // Noon forecast
+                                    .findFirst()
+                                    .map(h -> h.weatherDesc.get(0).value)
+                                    .orElse(day.hourly.get(0).weatherDesc.get(0).value); // Fallback to first hour
+
+                            return new Forecast.DailyForecast(
+                                    day.date,
+                                    Double.parseDouble(day.maxtempC),
+                                    Double.parseDouble(day.mintempC),
+                                    description
+                            );
+                        })
+                        .collect(java.util.stream.Collectors.toList());
+
+                return new Forecast(location, dailyForecasts);
+            }
+        } catch (Exception e) {
+            logger.error("Error fetching forecast from wttr.in for {}: {}", location.getName(), e.getMessage());
+        }
         return null;
     }
 
     public static class WttrInResponse {
         public List<CurrentCondition> current_condition;
+        public List<Weather> weather;
     }
 
     public static class CurrentCondition {
@@ -57,5 +83,18 @@ public class WttrInService {
 
     public static class WeatherDesc {
         public String value;
+    }
+
+    public static class Weather {
+        public String date;
+        public String maxtempC;
+        public String mintempC;
+        public List<Hourly> hourly;
+    }
+
+    public static class Hourly {
+        public String time;
+        public String tempC;
+        public List<WeatherDesc> weatherDesc;
     }
 }

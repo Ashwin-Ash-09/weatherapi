@@ -86,10 +86,10 @@ public class WeatherService {
         int count = results.size();
         return new CurrentWeather(
             location,
-            totalTemp / count,
+            Math.round((totalTemp / count) * 100.0) / 100.0,
             description,
             totalHumidity / count,
-            totalWindSpeed / count
+            Math.round((totalWindSpeed / count) * 100.0) / 100.0
         );
     }
 
@@ -119,7 +119,7 @@ public class WeatherService {
                 }
             }
             int count = dfs.size();
-            aggregated.add(new Forecast.DailyForecast(date, totalMax / count, totalMin / count, desc));
+            aggregated.add(new Forecast.DailyForecast(date, Math.round((totalMax / count) * 100.0) / 100.0, Math.round((totalMin / count) * 100.0) / 100.0, desc));
         }
 
         return new Forecast(location, aggregated);
