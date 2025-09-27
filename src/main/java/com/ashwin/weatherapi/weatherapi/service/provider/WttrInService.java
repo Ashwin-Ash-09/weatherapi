@@ -1,4 +1,4 @@
-package com.ashwin.weatherapi.weatherapi.provider;
+package com.ashwin.weatherapi.weatherapi.service.provider;
 
 import com.ashwin.weatherapi.weatherapi.model.CurrentWeather;
 import com.ashwin.weatherapi.weatherapi.model.Forecast;

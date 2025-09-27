@@ -3,6 +3,8 @@ package com.ashwin.weatherapi.weatherapi.provider;
 import com.ashwin.weatherapi.weatherapi.model.CurrentWeather;
 import com.ashwin.weatherapi.weatherapi.model.Forecast;
 import com.ashwin.weatherapi.weatherapi.model.Location;
+import com.ashwin.weatherapi.weatherapi.service.provider.TomorrowIoService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

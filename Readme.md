@@ -11,7 +11,7 @@ A robust, production-ready RESTful API that aggregates weather data from multipl
 
 - **Multi-Provider Integration**: Aggregates data from 5+ weather service providers
 - **Smart Caching**: Caffeine-based caching with configurable TTL (10 minutes default)
-- **Rate Limiting**: IP-based rate limiting with Bucket4j
+- **Rate Limiting**: IP-based rate limiting with Spring Security Filter chain
 - **Location Search**: Intelligent location resolution and search
 - **Comprehensive API Documentation**: Swagger/OpenAPI 3.0 integration
 - **Production Ready**: Health checks, actuator endpoints, and monitoring
@@ -30,14 +30,13 @@ A robust, production-ready RESTful API that aggregates weather data from multipl
 - [API Documentation](#-api-documentation)
 - [Architecture](#-architecture)
 - [Testing](#-testing)
-- [Contributing](#-contributing)
 - [License](#-license)
 
 ## ⚡ Quick Start
 
 ### Prerequisites
 
-- **Java 21** or higher
+- **Java 21**
 - **Maven 3.6+** 
 - **Internet connection** (for external weather API calls)
 
@@ -248,7 +247,6 @@ After building, you'll find:
 
 Once the application is running, visit:
 - **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-- **OpenAPI JSON**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
 ### Sample API Responses
 
@@ -302,7 +300,7 @@ Once the application is running, visit:
 **Rate Limit Exceeded (429):**
 ```json
 {
-  "error": "Rate limit exceeded. Try again later."
+  "error": "Too many requests."
 }
 ```
 
@@ -348,7 +346,6 @@ src/
 - **Spring Boot 3.3.4**: Core framework
 - **Java 21**: Programming language
 - **Caffeine Cache**: High-performance caching
-- **Bucket4j**: Rate limiting
 - **Spring Security**: Authentication and authorization
 - **SpringDoc OpenAPI**: API documentation
 - **Lombok**: Boilerplate reduction
@@ -400,7 +397,6 @@ src/
 ### Rate Limiting
 
 - **Default Limit**: 10 requests per minute per IP
-- **Implementation**: Bucket4j with token bucket algorithm
 - **Response**: HTTP 429 when limit exceeded
 - **Configuration**: Adjustable via application properties
 

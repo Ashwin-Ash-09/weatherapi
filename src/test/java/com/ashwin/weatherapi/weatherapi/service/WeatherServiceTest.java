@@ -3,11 +3,12 @@ package com.ashwin.weatherapi.weatherapi.service;
 import com.ashwin.weatherapi.weatherapi.model.CurrentWeather;
 import com.ashwin.weatherapi.weatherapi.model.Forecast;
 import com.ashwin.weatherapi.weatherapi.model.Location;
-import com.ashwin.weatherapi.weatherapi.provider.OpenMeteoService;
-import com.ashwin.weatherapi.weatherapi.provider.SevenTimerService;
-import com.ashwin.weatherapi.weatherapi.provider.TomorrowIoService;
-import com.ashwin.weatherapi.weatherapi.provider.WeatherApiComService;
-import com.ashwin.weatherapi.weatherapi.provider.WttrInService;
+import com.ashwin.weatherapi.weatherapi.service.provider.OpenMeteoService;
+import com.ashwin.weatherapi.weatherapi.service.provider.SevenTimerService;
+import com.ashwin.weatherapi.weatherapi.service.provider.TomorrowIoService;
+import com.ashwin.weatherapi.weatherapi.service.provider.WeatherApiComService;
+import com.ashwin.weatherapi.weatherapi.service.provider.WttrInService;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
